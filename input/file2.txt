@@ -1,0 +1,18 @@
+# Règles
+
+A + B => C
+C | D => E
+E ^ F => G
+A + !H => I
+(A + B) | (C + D) => J
+J => K + L
+M => L
+N => L
+
+# Faits initiaux
+
+=ABF
+
+# Questions
+
+?CDEFGHIJKL

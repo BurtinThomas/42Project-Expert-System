@@ -1,0 +1,9 @@
+# Règles
+A+C => B
+B => C
+
+# Faits initiaux
+=A
+
+# Questions
+?ABC

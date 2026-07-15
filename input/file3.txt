@@ -1,0 +1,14 @@
+# Règles
+
+
+A + !H => I
+
+
+
+# Faits initiaux
+
+=ABF
+
+# Questions
+
+?CDEFGHIJKL
