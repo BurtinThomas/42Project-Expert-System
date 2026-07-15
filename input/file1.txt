@@ -1,9 +1,7 @@
-# Règles
-A+C => B
-B => C
+A => B
+B => A
 
-# Faits initiaux
-=A
-
-# Questions
-?ABC
+=
+?AB
+# Expected: A = FALSE
+# Expected: B = FALSE

@@ -4,7 +4,6 @@
 A + !H => I
 
 
-
 # Faits initiaux
 
 =ABF

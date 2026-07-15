@@ -13,7 +13,7 @@ class And:
         self.right = right
 
     def __repr__(self):
-        return f"({self.left} + {self.right})"
+        return f"{self.left} + {self.right}"
 
 
 class Or:
@@ -22,7 +22,7 @@ class Or:
         self.right = right
 
     def __repr__(self):
-        return f"({self.left} | {self.right})"
+        return f"{self.left} | {self.right}"
 
 
 class Xor:
@@ -31,7 +31,7 @@ class Xor:
         self.right = right
 
     def __repr__(self):
-        return f"({self.left} ^ {self.right})"
+        return f"{self.left} ^ {self.right}"
 
 
 class Not:

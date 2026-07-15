@@ -4,7 +4,7 @@ from parsing.ast import Fact, And, Or, Xor, Not
 class ExpressionParser:
 
     def parse(self, expression):
-
+        
         # NOT (priorité la plus haute)
         if expression.startswith("!"):
             return Not(

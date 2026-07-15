@@ -1,7 +1,7 @@
 import os
 import sys
 from parsing.parsing import Parser
-from expert_system import ExpertSystem
+from system import ExpertSystem
 
 
 def print_ast(node, level=0):
@@ -46,6 +46,8 @@ def main():
     print("\n=== QUERIES ===")
     print(parser.queries)
 
+
+    print("\n=== RESULTS ===")
     system = ExpertSystem(
         parser.rules,
         parser.facts

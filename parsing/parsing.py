@@ -22,20 +22,16 @@ class Parser:
                 line = line.split('#')[0]
                 line = line.strip()
                 line = line.replace(" ", "")
-
                 if not line:
                     continue
-
                 if line.startswith('='):
                     self.facts.update(line[1:])
-
                 elif line.startswith('?'):
                     self.queries.extend(line[1:])
-
                 elif '=>' in line:
                     left, right = line.split('=>')
-                    condition = self.expression_parser.parse(left)
-                    conclusion = self.expression_parser.parse(right)
+                    left = self.expression_parser.parse(left)
+                    right = self.expression_parser.parse(right)
                     self.rules.append(
-                        Rule(condition, conclusion)
-    )
+                        Rule(left, right)
+                    )
