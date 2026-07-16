@@ -36,9 +36,7 @@ class ExpressionParser:
         return expression
 
     def parse(self, expression):
-        #print(expression)
         expression = self.remove_parentheses(expression)
-        print(expression)
 
         # XOR (priorité la plus faible)
         i = self.find_operator(expression, "^")
