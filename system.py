@@ -1,72 +1,51 @@
-
 from parsing.ast import Fact, And, Or, Xor, Not
+
 
 class ExpertSystem:
 
     def __init__(self, rules, facts):
         self.rules = rules
-        self.facts = facts
+        self.facts = set(facts)
 
 
-    def evaluate(self, node):
-        print("\n--------------------------------")
-        print(f"Node reçu : {node}")
-        print(f"Type      : {type(node)}")
-
+    def evaluate(self, node, visiting):
         # FACT
         if isinstance(node, Fact):
-            result = node.name in self.facts
-            print(f"Fact rencontré : {node.name}")
-            print(f"Est dans les faits ? {result}")
-            return result
-
+            return self.prove(node.name, visiting)
         # NOT
         if isinstance(node, Not):
-            print("Opérateur NOT")
-            print(f"On évalue : {node.child}")
-            child = self.evaluate(node.child)
-            result = not child
-            print(f"NOT {child} = {result}")
-            return result
-
+            return not self.evaluate(node.child, visiting)
         # AND
         if isinstance(node, And):
-            print("Opérateur AND")
-            print("Évaluation du côté gauche")
-            left = self.evaluate(node.left)
-            print("Évaluation du côté droit")
-            right = self.evaluate(node.right)
-            result = left and right
-            print(f"{left} AND {right} = {result}")
-            return result
-
+            left = self.evaluate(node.left, visiting)
+            right = self.evaluate(node.right, visiting)
+            return left and right
         # OR
         if isinstance(node, Or):
-            print("Opérateur OR")
-            left = self.evaluate(node.left)
-            right = self.evaluate(node.right)
-            result = left or right
-            print(f"{left} OR {right} = {result}")
-            return result
-
+            left = self.evaluate(node.left, visiting)
+            right = self.evaluate(node.right, visiting)
+            return left or right
         # XOR
         if isinstance(node, Xor):
-            print("Opérateur XOR")
-            left = self.evaluate(node.left)
-            right = self.evaluate(node.right)
-            result = left != right
-            print(f"{left} XOR {right} = {result}")
-            return result
-        print("Type inconnu !")
+            left = self.evaluate(node.left, visiting)
+            right = self.evaluate(node.right, visiting)
+            return left != right
         return False
-        
 
-    def prove(self, query):
-        # Est-ce déjà un fait connu ?
+
+    def prove(self, query, visiting=None):
+        if visiting is None:
+            visiting = set()
         if query in self.facts:
             return True
-        # Chercher une règle qui conclut ce fait
+        if query in visiting:
+            return False
+        visiting.add(query)
         for rule in self.rules:
-            if rule.right.name == query:
-                return self.evaluate(rule.left)
+            if isinstance(rule.right, Fact) and rule.right.name == query:
+                if self.evaluate(rule.left, visiting):
+                    self.facts.add(query)
+                    visiting.remove(query)
+                    return True
+        visiting.remove(query)
         return False

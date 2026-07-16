@@ -117,7 +117,7 @@ B => C
 # Expected: C = TRUE
 
 ########################################
-# 14. Plusieurs règles (2e utilisée). !!!!!!!!!!
+# 14. Plusieurs règles (2e utilisée)
 ########################################
 A => C
 B => C
@@ -137,7 +137,7 @@ A => B + C
 # Expected: C = TRUE
 
 ########################################
-# 16. Parenthèses. !!!!!!
+# 16. Parenthèses
 ########################################
 A + (B | C) => D
 
@@ -146,7 +146,7 @@ A + (B | C) => D
 # Expected: D = TRUE
 
 ########################################
-# 17. Parenthèses autre branche !!!!!
+# 17. Parenthèses autre branche
 ########################################
 A + (B | C) => D
 
@@ -155,7 +155,7 @@ A + (B | C) => D
 # Expected: D = TRUE
 
 ########################################
-# 18. Parenthèses faux !!!!!!!
+# 18. Parenthèses faux
 ########################################
 A + (B | C) => D
 
@@ -164,7 +164,7 @@ A + (B | C) => D
 # Expected: D = FALSE
 
 ########################################
-# 19. Chaînage arrière !!!!!!!!!
+# 19. Chaînage arrière
 ########################################
 A => B
 B => C
@@ -175,7 +175,7 @@ C => D
 # Expected: D = TRUE
 
 ########################################
-# 20. Chaînage avec plusieurs niveaux. !!!!!!!
+# 20. Chaînage avec plusieurs niveaux.
 ########################################
 A => B
 B + C => D
@@ -196,7 +196,7 @@ A | B + C => D
 # (interprété comme A | (B + C))
 
 ########################################
-# 22. Priorité avec parenthèses. !!!!!!
+# 22. Priorité avec parenthèses
 ########################################
 (A | B) + C => D
 
@@ -222,7 +222,7 @@ A => B
 # Expected: B = FALSE
 
 ########################################
-# 25. Plusieurs requêtes !!!!!!!!!!
+# 25. Plusieurs requêtes
 ########################################
 A => B
 B => C

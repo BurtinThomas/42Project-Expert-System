@@ -1,7 +1,0 @@
-A => B
-B => A
-
-=
-?AB
-# Expected: A = FALSE
-# Expected: B = FALSE

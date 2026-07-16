@@ -4,21 +4,6 @@ from parsing.parsing import Parser
 from system import ExpertSystem
 
 
-def print_ast(node, level=0):
-    """
-    Affiche récursivement l'arbre AST.
-    """
-    indent = "  " * level
-    print(f"{indent}{type(node).__name__}: {node}")
-    # Pour And, Or, Xor
-    if hasattr(node, "left") and hasattr(node, "right"):
-        print_ast(node.left, level + 1)
-        print_ast(node.right, level + 1)
-    # Pour Not
-    elif hasattr(node, "child"):
-        print_ast(node.child, level + 1)
-
-
 def main():
     if len(sys.argv) != 2:
         print(f"Usage: python {sys.argv[0]} <input_file>")
@@ -30,24 +15,6 @@ def main():
 
     parser = Parser(filename)
 
-    print("\n=== RULES ===")
-    for rule in parser.rules:
-        print("\nRule:")
-        
-        print("Condition:")
-        print_ast(rule.left)
-
-        print("Conclusion:")
-        print_ast(rule.right)
-
-    print("\n=== FACTS ===")
-    print(parser.facts)
-
-    print("\n=== QUERIES ===")
-    print(parser.queries)
-
-
-    print("\n=== RESULTS ===")
     system = ExpertSystem(
         parser.rules,
         parser.facts
