@@ -5,24 +5,25 @@ from system import ExpertSystem
 
 
 def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: python {sys.argv[0]} <input_file>")
+    try:
+        if len(sys.argv) != 2:
+            raise ValueError("Usage: python expert_system.py <filename>")
+        filename = sys.argv[1]
+        if not os.path.isfile(filename):
+            raise FileNotFoundError(f"File not found: {filename}")
+        if os.path.getsize("input/file.txt") == 0:
+            raise ValueError("File is empty")
+        parser = Parser(filename)
+        system = ExpertSystem(
+            parser.rules,
+            parser.facts
+        )
+        for query in parser.queries:
+            result = system.prove(query)
+            print(f"{query}: {result}")
+    except Exception as e:
+        print(f"Error: {e}")
         return
-    filename = sys.argv[1]
-    if not os.path.isfile(filename):
-        print(f"Error: File '{filename}' not found.")
-        return
-
-    parser = Parser(filename)
-
-    system = ExpertSystem(
-        parser.rules,
-        parser.facts
-    )
-
-    for query in parser.queries:
-        result = system.prove(query)
-        print(f"{query}: {result}")
 
 if __name__ == "__main__":
     main()

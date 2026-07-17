@@ -14,6 +14,35 @@ class ExpressionParser:
                 return i
         return -1
 
+
+    def check_parentheses(self, expression):
+        depth = 0
+        for c in expression:
+            if c == "(":
+                depth += 1
+            elif c == ")":
+                depth -= 1
+            if depth < 0:
+                raise SyntaxError("Invalid parentheses")
+        if depth != 0:
+            raise SyntaxError("Invalid parentheses")
+
+
+    def check_operators(self, expression):
+        operators = "+|^"
+        for i, c in enumerate(expression):
+            if i == 0 and c in operators:
+                raise SyntaxError("Operator without left operand")
+            if i == len(expression) - 1 and c in operators:
+                raise SyntaxError("Operator without right operand")
+            if (
+                i < len(expression) - 1
+                and c in operators
+                and expression[i + 1] in operators
+            ):
+                raise SyntaxError("Two operators together")
+
+
     def remove_parentheses(self, expression):
         while (
             expression.startswith("(")
@@ -35,33 +64,51 @@ class ExpressionParser:
                 break
         return expression
 
-    def parse(self, expression):
-        expression = self.remove_parentheses(expression)
 
-        # XOR (priorité la plus faible)
+    def parse(self, expression):
+        self.check_parentheses(expression)
+        self.check_operators(expression)
+        expression = self.remove_parentheses(expression)
         i = self.find_operator(expression, "^")
         if i != -1:
+            left = expression[:i]
+            right = expression[i + 1:]
+            if not left or not right:
+                raise SyntaxError("Missing operand")
             return Xor(
-                self.parse(expression[:i]),
-                self.parse(expression[i + 1:])
+                self.parse(left),
+                self.parse(right)
             )
         # OR
         i = self.find_operator(expression, "|")
         if i != -1:
+            left = expression[:i]
+            right = expression[i + 1:]
+            if not left or not right:
+                raise SyntaxError("Missing operand")
             return Or(
-                self.parse(expression[:i]),
-                self.parse(expression[i + 1:])
+                self.parse(left),
+                self.parse(right)
             )
         # AND
         i = self.find_operator(expression, "+")
         if i != -1:
+            left = expression[:i]
+            right = expression[i + 1:]
+            if not left or not right:
+                raise SyntaxError("Missing operand")
             return And(
-                self.parse(expression[:i]),
-                self.parse(expression[i + 1:])
+                self.parse(left),
+                self.parse(right)
             )
-        # NOT (priorité la plus haute)
+        # NOT
         if expression.startswith("!"):
+            if len(expression) == 1:
+                raise SyntaxError("Missing operand after !")
             return Not(
                 self.parse(expression[1:])
             )
+        # Fact
+        if len(expression) != 1 or not expression.isupper():
+            raise SyntaxError(f"Invalid fact: {expression}")
         return Fact(expression)
