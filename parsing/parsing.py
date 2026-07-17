@@ -31,7 +31,9 @@ class Parser:
                 elif '=>' in line:
                     left, right = line.split('=>')
                     left = self.expression_parser.parse(left)
-                    right = self.expression_parser.parse(right)
-                    self.rules.append(
-                        Rule(left, right)
-                    )
+                    and_rights = right.split('+')
+                    for and_right in and_rights:
+                        right = self.expression_parser.parse(and_right)
+                        self.rules.append(
+                            Rule(left, right)
+                        )
